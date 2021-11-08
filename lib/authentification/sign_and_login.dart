@@ -79,6 +79,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
           ),
           // Trick to add the shadow for the submit button
+          //button(),
           buildBottomHalfContainer(true),
           //Main Contianer for Login and Signup
           AnimatedPositioned(
@@ -171,7 +172,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
             ),
           ),
           // Trick to add the submit button
-          buildBottomHalfContainer(false),
+          // button()
+         buildBottomHalfContainer(false),
           // Bottom buttons
           // Positioned(
           //   top: MediaQuery.of(context).size.height - 100,
@@ -303,6 +305,13 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
     );
   }
 
+  Widget button(){
+    return IconButton(
+        onPressed:()=>Navigator.pushReplacementNamed(context, '/mainscreen'),
+        icon: Icon(Icons.arrow_forward,color: white,)
+    );
+  }
+
   Widget buildBottomHalfContainer(bool showShadow) {
     return AnimatedPositioned(
       duration: Duration(milliseconds: 700),
@@ -330,7 +339,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
               ? OnHoverButton(
 
                 child: GestureDetector(
-            onTap: ()=>Navigator.pushReplacementNamed(context, '/mainscreen'),
+            onTap: ()=>Navigator.pushReplacementNamed(context, "/MainScreen"),
                   child: Container(
             decoration: BoxDecoration(
                     gradient: LinearGradient(

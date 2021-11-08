@@ -5,25 +5,29 @@ import 'custom_text.dart';
 
 
 
-//api links
-//api links
+
+//api online links
 String host = "https://alothiep-food-app.herokuapp.com/";
 String apiCommandeRecente = host +"api/Commande/recente";
-String apiUserInfo = "http://localhost:8000/api/User";
-// String apiMenuDuJour_get = host + "api/Menu/menu_du_jour";
-String apiMenuDuJour_get = "http://localhost:8000/api/Menu/menu_du_jour";
-// String apiMenuDuJour_post = host + "api/PlatMenu/menu_du_jour";
-String apiMenuDuJour_post = "http://localhost:8000/api/PlatMenu/menu_du_jour";
-
+String apiNombre = host + "api/Commande/nombre";
+String apiUserInfo =  host +"api/User";
+String apiMenuDuJour_get = host + "api/Menu/menu_du_jour";
+String apiMenuDuJour_post = host + "api/PlatMenu/menu_du_jour";
 String apiPlat_post = host + "api/Plats";
 String apiPlat_get = host + "api/Plats";
+String apiJus_post = host + "api/Jus";
+String apiJus_get = host + "api/Jus";
+
+//-------------------------------------------------------------------
+//api online links
+
+// String apiUserInfo = "http://localhost:8000/api/User";
+// String apiMenuDuJour_get = "http://localhost:8000/api/Menu/menu_du_jour";
+// String apiMenuDuJour_post = "http://localhost:8000/api/PlatMenu/menu_du_jour";
 // String apiPlat_get = "http://localhost:8000/api/Plats";
-// String apiJus_post = host + "api/Jus";
-String apiJus_post = "http://localhost:8000/api/Jus";
-String apiJus_get = "http://localhost:8000/api/Jus";
-// String apiJus_get = host + "api/Jus";
-String apiUsers = "http://localhost:8000/api/User";
-String apiCommandes = "http://localhost:8000/api/Commande";
+// String apiJus_post = "http://localhost:8000/api/Jus";
+// String apiJus_get = "http://localhost:8000/api/Jus";
+// String apiCommandes = "http://localhost:8000/api/Commande";
 
 //---------------------------------------------------------
 //**decoration du formulaire des plats

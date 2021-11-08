@@ -1,19 +1,27 @@
 import 'dart:convert';
+import 'package:allo_thieb/help/apiGetPost.dart';
 import 'package:allo_thieb/help/app_colors.dart';
 import 'package:allo_thieb/help/constants.dart';
 import 'package:allo_thieb/help/custom_text.dart';
 import 'package:allo_thieb/help/loading.dart';
 import 'package:allo_thieb/help/onHoverbutton.dart';
+import 'package:allo_thieb/models/Plats/list_plats_infos.dart';
+import 'package:allo_thieb/screens/main/main_screen.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ndialog/ndialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import '../../../demo.dart';
+import '../../../main.dart';
 import '../../../responsive.dart';
+import '../dashboard_screen.dart';
 
 
 var nom_du_menu = "Menu du jour : ";
+List laList = [];
+
 class FileInfoCardGridView extends StatefulWidget {
   const FileInfoCardGridView({
     Key? key,
@@ -46,20 +54,35 @@ class _FileInfoCardGridViewState extends State<FileInfoCardGridView> {
     }
   }
 
-  GridView buildGridView() {
-    return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: list.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: widget.crossAxisCount,
-        crossAxisSpacing: defaultPadding,
-        mainAxisSpacing: defaultPadding,
-        childAspectRatio: widget.childAspectRatio,
+  popUpError() {
+    return NAlertDialog(
+      title: Text("Attention!"),
+      content: Text("Echec de connexion"),
+      blur: 2,
+    ).show(context, transitionType: DialogTransitionType.Bubble);
+  }
+
+  ListPlatbuildGridView() {
+    return verify
+        ? Center(child: Loading())
+        : list[0] == "R.A.S"
+        ? popUpError()
+        : SafeArea(
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: list.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: widget.crossAxisCount,
+          crossAxisSpacing: defaultPadding,
+          mainAxisSpacing: defaultPadding,
+          childAspectRatio: widget.childAspectRatio,
+        ),
+        itemBuilder: (context, index) => FileInfoCard(info: list[index]),
       ),
-      itemBuilder: (context, index) => FileInfoCard(info: list[index]),
     );
   }
+
 
   @override
   void initState() {
@@ -72,7 +95,7 @@ class _FileInfoCardGridViewState extends State<FileInfoCardGridView> {
     if (list.isEmpty){
       return Loading();
     }
-    return buildGridView();
+    return ListPlatbuildGridView();
   }
 }
 //**************************************************************************
@@ -101,7 +124,7 @@ class _MyFilesState extends State<MyFiles> {
       list1 = ["R.A.S"];
     }
   }
-  /*
+
   _insert(List data, String libelle) {
     var values = {
       'listPlats': data,
@@ -110,7 +133,7 @@ class _MyFilesState extends State<MyFiles> {
     var req = CallApiPost();
     req.postData(values, apiMenuDuJour_post);
   }
-*/
+
   @override
   void initState() {
     super.initState();
@@ -165,45 +188,58 @@ class _MyFilesState extends State<MyFiles> {
               ],
             ),
             content: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.grey, offset: Offset(0, 3), blurRadius: 24)
-                  ]),
-              height: (_size.height * 80) / 100,
-              width: (_size.width * 80) / 100,
-              // child: vf
-              //     ? Center(child: Loading())
-              //     : PopUpSelect(list: list1, libelle: libelleController),
-            ),
+                height: (_size.height * 80) / 100,
+                width: (_size.width * 80) / 100,
+                child: PopUpSelect(list: list1)),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   FlatButton(
-                       color: Color(0xb7073662),
-                       onPressed: () {
-                         //ValidateMenu();
-                       },
-                       child: new Text("Ok")),
-                   SizedBox(width: 1.w,),
-                   RaisedButton(
-                     elevation: 2,
-                     color: Colors.white,
-                     child: new Text("Close",
-                         style: TextStyle(
-                           color: Color(0xb7073662),
-                         )),
-                     onPressed: () {
-                       Navigator.of(context).pop();
-                     },
-                   ),
-                 ],
-               )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FlatButton(
+                      color: Color(0xb7073662),
+                      onPressed: () {
+                        List data = [];
+                        laList.forEach((element) {
+                          if (element.selection) {
+                            element.info['quantite'] =
+                                int.parse(element.quantiteController.text);
+                            print(element.info['quantite']);
+                            data.add(element.info);
+                          }
+                        });
+                        _insert(data, libelleController.text);
+                        Navigator.of(context).pop();
+                        var screen_refresh = MainScreen();
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    buildMaterialApp(context, screen_refresh)));
+                        setState(() {
+                          screen_refresh.screen = DashboardScreen();
+                          nom_du_menu =
+                              "Menu du jour : " + libelleController.text;
+                        });
+                        laList = [];
+                      },
+                      child: new Text("Ok")),
+                  SizedBox(
+                    width: 1.w,
+                  ),
+                  RaisedButton(
+                    elevation: 2,
+                    color: Colors.white,
+                    child: new Text("Close",
+                        style: TextStyle(
+                          color: Color(0xb7073662),
+                        )),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              )
             ],
           );
         },
@@ -250,6 +286,7 @@ class _MyFilesState extends State<MyFiles> {
             ),
           ],
         ),
+
         SizedBox(height: defaultPadding),
         Responsive(
           Mobile: FileInfoCardGridView(
@@ -257,7 +294,8 @@ class _MyFilesState extends State<MyFiles> {
             childAspectRatio: _size.width < 650 && _size.width > 350 ? 2.3 : 2,
           ),
           Tablet: FileInfoCardGridView(
-            childAspectRatio: _size.width <= 850 && _size.width > 650 ? 1.8 : 1.8,
+            childAspectRatio:
+            _size.width <= 850 && _size.width > 650 ? 1.8 : 1.8,
           ),
           Desktop: FileInfoCardGridView(
             childAspectRatio: _size.width < 1400 ? 2.8 : 2,
@@ -285,14 +323,22 @@ class FileInfoCard extends StatelessWidget {
               children: [
                 Container(
                     padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: Responsive.isMobile(context) ?
+                    MediaQuery.of(context).size.height * 0.6
+                        :
+                    MediaQuery.of(context).size.height * 0.7,
+
+                    width: Responsive.isMobile(context) ?
+                    MediaQuery.of(context).size.width * 0.9
+                        :
+                    MediaQuery.of(context).size.width * 0.5,
+
                     margin: EdgeInsets.only(top: 6.h),
                     decoration: BoxDecoration(
                       color: white,
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black54,
                           blurRadius: 10,
@@ -356,7 +402,7 @@ class FileInfoCard extends StatelessWidget {
                           child: Ink.image(
                             image: NetworkImage(img),
                             height: 40.h,
-                            width: 50.w,
+                            width: 100.w,
                             fit: BoxFit.cover,),
                         )
                       ],
@@ -419,82 +465,48 @@ class FileInfoCard extends StatelessWidget {
       );
     }
 
-    Widget buildCard() {
-      var heading = '\$2300 per month';
-      var subheading = '2 bed, 1 bath, 1300 sqft';
-      var cardImage = NetworkImage(
-          'https://source.unsplash.com/random/800x600?house');
-      var supportingText =
-          'Beautiful home to rent, recently refurbished with modern appliances...';
-      return Card(
-          elevation: 4.0,
-          child: Container(
-            child: Column(
-              children: [
-                ListTile(
-                  title: Text(info["plat"]["nomPlat"],
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: black,
-                    ),
-                  ),
-                  trailing: Icon(Icons.favorite_outline),
-                ),
-                OnHoverText(
-                  child: Container(
-                    child: InkWell(
-                      onTap: (){},
-                      child: Ink.image(
-                        image: cardImage,
-                        height: 20.h,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
-          ));
-    }
 
     return card1();
   }
 }
 
-/*
- Container(
-      // color: red,
-        child: ExpansionCard(
-          borderRadius: 20,
-          background:  Image.asset(
-            "assets/images/asia.jpg",
-            width: 100.w,
-            fit: BoxFit.cover,
-          ),
-          title: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  info["plat"]["nomPlat"],
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                    color: white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 7),
-              child: Text("Content goes over here !",
-                  style: TextStyle(fontSize: 20, color: Colors.black)),
-            )
-          ],
-        )
+
+class PopUpSelect extends StatefulWidget {
+  PopUpSelect({required this.list});
+  final List list;
+
+  @override
+  _PopUpSelectState createState() => _PopUpSelectState();
+}
+
+class _PopUpSelectState extends State<PopUpSelect> {
+  TextEditingController quantiteController = TextEditingController();
+  bool isSelectionMode = false;
+  Map<int, bool> selectedFlag = {};
+  List selections = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: GridView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.list.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: Responsive.isDesktop(context) ? 3 :
+          Responsive.isTablet(context) ? 2 : 1,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: Responsive.isDesktop(context) ? 0.9 :
+          Responsive.isTablet(context) ? 1.2 : 1.3,
+        ),
+        itemBuilder: (context, index) {
+          var plat = PlatCard(info: widget.list[index], isEditing: true);
+          laList.add(plat);
+          return plat;
+        },
+      ),
     );
- */
+  }
+}

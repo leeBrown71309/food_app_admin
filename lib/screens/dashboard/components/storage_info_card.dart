@@ -1,6 +1,6 @@
 import 'package:allo_thieb/help/app_colors.dart';
 import 'package:allo_thieb/help/onHoverbutton.dart';
-import 'package:avatars/avatars.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:flutter_svg/flutter_svg.dart';

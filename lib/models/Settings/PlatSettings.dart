@@ -95,7 +95,7 @@ class _DefaultPlatState extends State<DefaultPlat> {
                       padding: EdgeInsets.only(top: 10),
                     ),
                     Container(
-                      width: 55.w,
+                      width: 100.w,
                       decoration: BoxDecoration(
                         border: Border(
                           left: BorderSide( //                   <--- left side
@@ -198,6 +198,7 @@ class _PlatFormState extends State<PlatForm> {
           ),
           Text(
             titre,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(color: Colors.black54),
           ),
           Icon(Icons.stop_circle_outlined,color: color,size: 30,)
@@ -297,7 +298,7 @@ class _PlatFormState extends State<PlatForm> {
                   validator: (value) =>
                       value!.isEmpty ? "Entrer le nom du plat" : null,
                   style: TextStyle(
-                    color: black,
+                    color: white,
                   ),
                   decoration: inputDecorationFormNomPlat,
                 ),
@@ -326,7 +327,7 @@ class _PlatFormState extends State<PlatForm> {
                   validator: (value) =>
                       value!.isEmpty ? "Entrer une description" : null,
                   style: TextStyle(
-                    color: black,
+                    color: white,
                   ),
                   // expands: true,
                   maxLines: 5,
@@ -349,7 +350,7 @@ class _PlatFormState extends State<PlatForm> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  width: 20.w,
+                  width: 60.w,
                   decoration: BoxDecoration(
                       color: Color(0xb7073662),
                       borderRadius: BorderRadius.circular(8)),
@@ -361,7 +362,7 @@ class _PlatFormState extends State<PlatForm> {
                       validator: (value) =>
                           value!.isEmpty ? "Donner un prix" : null,
                       style: TextStyle(
-                        color: black,
+                        color: white,
                       ),
                       decoration: inputDecorationFormPrix,
                     ),
@@ -392,7 +393,7 @@ class _PlatFormState extends State<PlatForm> {
                   validator: (value) =>
                       value!.isEmpty ? "Mettez une image" : null,
                   style: TextStyle(
-                    color: black,
+                    color: white,
                   ),
                   decoration: inputDecorationFormImg,
                 ),
@@ -401,6 +402,15 @@ class _PlatFormState extends State<PlatForm> {
             SizedBox(
               height: 2.h,
             ),
+            Responsive.isMobile(context) ?
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Couleur du jeton",
+                  // textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.w700),),
+              ],
+            ) :
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -409,8 +419,18 @@ class _PlatFormState extends State<PlatForm> {
                   style: TextStyle(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.w700),),
               ],
             ),
+            !Responsive.isMobile(context) ?
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildCheckboxBleu(blue,"Blue"),
+                _buildCheckboxRouge(red,"Rouge"),
+                _buildCheckboxNoir(noir,"Noir")
+              ],
+            ) :
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildCheckboxBleu(blue,"Blue"),
                 _buildCheckboxRouge(red,"Rouge"),

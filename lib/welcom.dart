@@ -483,7 +483,7 @@ class Button extends StatelessWidget {
           textColor: white,
           child: Text("Suivant",
             style: TextStyle(fontSize: 2.h),),
-          onPressed: ()=> Navigator.pushReplacementNamed(context, '/auth')),
+          onPressed: (){},)
     );
   }
 }

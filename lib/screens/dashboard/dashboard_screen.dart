@@ -31,7 +31,7 @@ class DashboardScreen extends StatelessWidget {
             weight: FontWeight.bold,
           ),
           leading: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
             child:  Row(
               children: [
                 if (!Responsive.isDesktop(context))

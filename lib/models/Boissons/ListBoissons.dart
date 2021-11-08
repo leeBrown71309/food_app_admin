@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:allo_thieb/help/app_colors.dart';
 import 'package:allo_thieb/help/constants.dart';
 import 'package:allo_thieb/help/custom_text.dart';
+import 'package:allo_thieb/help/loading.dart';
 import 'package:allo_thieb/help/onHoverbutton.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -62,7 +63,7 @@ class ListJusCardGridView extends StatefulWidget {
 class _ListPlatCardGridView extends State<ListJusCardGridView> {
   var list = [];
   bool vf = true;
-  var cardImage = 'https://source.unsplash.com/random/800x600?Food';
+  var cardImage = 'https://source.unsplash.com/random/800x600?Boissons';
 
   Future getData() async {
     final http.Response response = await http.get(Uri.parse(apiJus_get));
@@ -84,7 +85,7 @@ class _ListPlatCardGridView extends State<ListJusCardGridView> {
 
   Widget ListJusbuildGridView() {
     return vf
-        ? Center(child: CircularProgressIndicator())
+        ? Center(child: Loading())
         : list[0] == "R.A.S"
             ? Container(
                 child: Center(
@@ -175,18 +176,6 @@ class _ListPlatCardGridView extends State<ListJusCardGridView> {
                                     ],
                                   ),
                                 ),
-                                Align(
-                                    alignment: Alignment.center,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Column(
-                                        children: [
-                                          Text("Prix :${list[index]["prix"]} FCFA",),
-
-                                          //essaie de faire en sorte qu'on puisse afficher aussi la quantité
-                                        ],
-                                      ),
-                                    )),
                               ],
                             )),
                       ),

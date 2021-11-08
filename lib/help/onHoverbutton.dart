@@ -98,4 +98,37 @@ class _OnHoverCardState extends State<OnHoverCard> {
   });
 }
 
+//***************************************************************
+
+
+class OnHoverUserCard extends StatefulWidget {
+  const OnHoverUserCard({required this.child});
+  final Widget child;
+  @override
+  _OnHoverUserCardState createState() => _OnHoverUserCardState();
+}
+
+class _OnHoverUserCardState extends State<OnHoverUserCard> {
+  bool isHovered = false;
+  @override
+  Widget build(BuildContext context) {
+    final hoveredTransform = Matrix4.identity()..translate(0,-50,0);
+    final transform = isHovered ? hoveredTransform : Matrix4.identity();
+    return MouseRegion(
+        onEnter: (event)=> onEntered(true),
+        onExit: (event)=> onEntered(false),
+        child: AnimatedContainer(
+            curve: Sprung.overDamped,
+            duration: Duration(
+              milliseconds: 200,),
+            transform: transform,
+            child: widget.child)
+    );
+  }
+
+  void onEntered(bool isHovered) => setState((){
+    this.isHovered = isHovered;
+  });
+}
+
 

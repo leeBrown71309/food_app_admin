@@ -2,7 +2,7 @@ import 'package:allo_thieb/controllers/MenuController.dart';
 import 'package:allo_thieb/help/app_colors.dart';
 import 'package:allo_thieb/help/custom_text.dart';
 import 'package:allo_thieb/help/onHoverbutton.dart';
-import 'package:allo_thieb/models/Plats/ListPlats.dart';
+import 'package:allo_thieb/models/Plats/list_plats.dart';
 import 'package:allo_thieb/screens/dashboard/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,9 +36,7 @@ class _EditPlatJourState extends State<EditPlatJour> {
               color: SideMenuColor,
               weight: FontWeight.bold,
             ),
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:  Row(
+            leading: Row(
                 children: [
                   if (!Responsive.isDesktop(context))
                     IconButton(
@@ -47,7 +45,6 @@ class _EditPlatJourState extends State<EditPlatJour> {
                     ),
                 ],
               ),
-            ),
             actions: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -90,7 +87,7 @@ class _EditPlatJourState extends State<EditPlatJour> {
                       children: [
                         CustomText(
                           text: "Plats enregistrés",
-                          size: 5.sp,
+                          size: 20,
                           color: black,
                         ),
                         ListPlats(),

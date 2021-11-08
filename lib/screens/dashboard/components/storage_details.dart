@@ -3,6 +3,7 @@ import 'package:allo_thieb/help/custom_text.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'dart:math' as math;
 import 'storage_info_card.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
@@ -231,12 +232,6 @@ class _TileCardState extends State<TileCard> {
 class Notice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    buildItem(String label) {
-      return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(label),
-      );
-    }
 
     buildNotice() {
       return Column(
@@ -244,7 +239,7 @@ class Notice extends StatelessWidget {
           Text("Vous retrouverez ici la liste de certain clients.\n"
               "Cliquer pour afficher les détails d'un client.\n"
               "'Tous' pour afficher la liste de tous les clients",
-            style: TextStyle(fontSize: 15),)
+            style: TextStyle(fontSize: 15,color: white),)
         ],
       );
     }
@@ -296,6 +291,7 @@ class Notice extends StatelessWidget {
                     ),
                     collapsed: Container(),
                     expanded: Container(
+                      width: 100.w,
                       color: Color(0x581fafee),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

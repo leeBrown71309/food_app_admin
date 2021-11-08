@@ -94,7 +94,7 @@ class _BoissonsState extends State<Boissons> {
                       padding: EdgeInsets.only(top: 10),
                     ),
                     Container(
-                      width: 55.w,
+                      width: 100.w,
                       decoration: BoxDecoration(
                         border: Border(
                           left: BorderSide( //                   <--- left side
@@ -245,7 +245,7 @@ class _BoissonFormState extends State<BoissonForm> {
                 validator: (value) =>
                 value!.isEmpty ? "Entrer le nom du jus" : null,
                 style: TextStyle(
-                  color: black,
+                  color: white,
                 ),
                 decoration: inputDecorationFormNomjus,
               ),
@@ -295,7 +295,7 @@ class _BoissonFormState extends State<BoissonForm> {
                 validator: (value) =>
                 value!.isEmpty ? "Mettez une image" : null,
                 style: TextStyle(
-                  color: black,
+                  color: white,
                 ),
                 decoration: inputDecorationFormImgjus,
               ),
@@ -304,6 +304,71 @@ class _BoissonFormState extends State<BoissonForm> {
           SizedBox(
             height: 2.h,
           ),
+          Responsive.isMobile(context) ?
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Prix de la boutteile",
+                    // textAlign: TextAlign.start,
+                    style: TextStyle(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.w700),),
+                  Container(
+                    width: 35.w,
+                    decoration: BoxDecoration(
+                        color: Color(0xb7073662),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: TextFormField(
+                        controller: prixController,
+                        onChanged: (value) => setState(() => les_prix[0] = int.parse(value)),
+                        validator: (value) =>
+                        value!.isEmpty ? "Donner le prix de la bouteille" : null,
+                        style: TextStyle(
+                          color: white,
+                        ),
+                        decoration: inputDecorationFormPrixJus,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  _notBottle ?
+                  Column(
+                      children: [
+                        Text("Prix du bol",
+                          // textAlign: TextAlign.start,
+                          style: TextStyle(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.w700),),
+                        Container(
+                          width: 35.w,
+                          decoration: BoxDecoration(
+                              color: Color(0xb7073662),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: TextFormField(
+                              controller: prixBolController,
+                              onChanged: (value) => setState(() => les_prix[1] = int.parse(value)),
+                              validator: (value) =>
+                              value!.isEmpty ? "Donner le prix du bol" : null,
+                              style: TextStyle(
+                                color: white,
+                              ),
+                              decoration: inputDecorationFormPrixJus,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  :Text(""),
+                ],
+              )
+            ],
+          ) :
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -326,7 +391,7 @@ class _BoissonFormState extends State<BoissonForm> {
                         validator: (value) =>
                         value!.isEmpty ? "Donner le prix de la bouteille" : null,
                         style: TextStyle(
-                          color: black,
+                          color: white,
                         ),
                         decoration: inputDecorationFormPrixJus,
                       ),
@@ -338,32 +403,32 @@ class _BoissonFormState extends State<BoissonForm> {
                 children: [
                   _notBottle ?
                   Column(
-                      children: [
-                        Text("Prix du bol",
-                          // textAlign: TextAlign.start,
-                          style: TextStyle(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.w700),),
-                        Container(
-                          width: 20.w,
-                          decoration: BoxDecoration(
-                              color: Color(0xb7073662),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: TextFormField(
-                              controller: prixBolController,
-                              onChanged: (value) => setState(() => les_prix[1] = int.parse(value)),
-                              validator: (value) =>
-                              value!.isEmpty ? "Donner le prix du bol" : null,
-                              style: TextStyle(
-                                color: black,
-                              ),
-                              decoration: inputDecorationFormPrixJus,
+                    children: [
+                      Text("Prix du bol",
+                        // textAlign: TextAlign.start,
+                        style: TextStyle(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.w700),),
+                      Container(
+                        width: 20.w,
+                        decoration: BoxDecoration(
+                            color: Color(0xb7073662),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: TextFormField(
+                            controller: prixBolController,
+                            onChanged: (value) => setState(() => les_prix[1] = int.parse(value)),
+                            validator: (value) =>
+                            value!.isEmpty ? "Donner le prix du bol" : null,
+                            style: TextStyle(
+                              color: white,
                             ),
+                            decoration: inputDecorationFormPrixJus,
                           ),
                         ),
-                      ],
-                    )
-                  :Text(""),
+                      ),
+                    ],
+                  )
+                      :Text(""),
                 ],
               )
             ],

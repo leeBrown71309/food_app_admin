@@ -3,22 +3,21 @@ import 'package:allo_thieb/controllers/MenuController.dart';
 import 'package:allo_thieb/help/app_colors.dart';
 import 'package:allo_thieb/help/custom_text.dart';
 import 'package:allo_thieb/help/onHoverbutton.dart';
-import 'package:allo_thieb/models/Boissons/ListBoissons.dart';
+import 'package:allo_thieb/models/clients.dart';
 import 'package:allo_thieb/screens/dashboard/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../responsive.dart';
 
-class GestionBoissons extends StatefulWidget {
-  const GestionBoissons({Key? key}) : super(key: key);
+class ListClient extends StatefulWidget {
+  const ListClient({Key? key}) : super(key: key);
 
   @override
-  _GestionBoissonsState createState() => _GestionBoissonsState();
+  _ListClientState createState() => _ListClientState();
 }
 
-class _GestionBoissonsState extends State<GestionBoissons> {
+class _ListClientState extends State<ListClient> {
   @override
   Widget build(BuildContext context) => Scaffold(
 
@@ -68,7 +67,7 @@ class _GestionBoissonsState extends State<GestionBoissons> {
           child:  Column(
             children: [
               SizedBox(height: 10,),
-              HeaderPageName(namePage: ' Liste des boissons',),
+              HeaderPageName(namePage: ' Liste des Clients',),
               Padding(
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Banner(),
@@ -77,17 +76,17 @@ class _GestionBoissonsState extends State<GestionBoissons> {
                 padding: const EdgeInsets.all(defaultPadding),
                 child: Container(
                     padding: EdgeInsets.all(7),
-                   child: Column(
-                     mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomText(
-                          text: "Boissons enregistrés",
+                          text: "Clients enregistrés",
                           size: 20,
                           color: black,
                         ),
-                        ListJus(),
+                        Clients(),
                         SizedBox(height: 20,),
-                        Footer()
+                        // Footer()
                       ],
                     )),
               ),
@@ -100,50 +99,24 @@ class _GestionBoissonsState extends State<GestionBoissons> {
 }
 
 class Banner extends StatelessWidget {
-  const Banner({Key? key}) : super(key: key);
 
+  var cardImage = 'https://source.unsplash.com/random/800x600?Person';
   @override
   Widget build(BuildContext context) {
-    Widget miniBox() {
-      return OnHoverText(
-        child: Container(
-          height: 70,
-          width: 150,
-          margin: EdgeInsets.only(left: defaultPadding),
-          padding: EdgeInsets.symmetric(
-            horizontal: defaultPadding,
-            vertical: defaultPadding / 2,
-          ),
-          decoration: BoxDecoration(
-            color: Color(0x980e183e),
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
-            border: Border.all(color: Colors.white54),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Icon(Icons.forward_outlined,color: Colors.white54,),
-              Column(
-                children: [
-                  CustomText(
-                      text: "20",
-                      size: 15,
-                      color: Colors.white70),
-                  SizedBox(height: 10,),
-                  CustomText(
-                      text: "NB plats",
-                      size: 10,
-                      color: Colors.white54)
-                ],
-              )
-            ],
-          ),
+    Widget buildCard() => GestureDetector(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              color: Colors.blueAccent.withOpacity(0.2),
+              child: Image.network(cardImage, fit: BoxFit.cover),
+            ),
+          ],
         ),
-      );
-    }
-
-
-
+      ),
+    );
     Widget banner(){
       return Container(
         decoration: const BoxDecoration(
@@ -188,66 +161,11 @@ class Banner extends StatelessWidget {
                 ),
               ],
             ),
-            !Responsive.isDesktop(context) ?
-            OnHoverButton(
-              child: IconButton(
-                splashColor: Colors.white70,
-                icon: Icon(Icons.keyboard_arrow_down_sharp,color: white,),
-                onPressed: () {
-                  // _showDialog();
-                },
-
-              ),
-            ) :
-            Row(
-              children: [
-                miniBox(),
-
-              ],
-            )
-
 
           ],
         ),
       );
     }
     return banner();
-  }
-}
-class Footer extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-
-    Widget footer(){
-      return Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            gradient: LinearGradient(colors: [
-              Color(0xf3f4761c),
-              Color(0xfe840eec),
-              Color(0xf6f51445)
-            ])),
-        padding: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Text("Powered by Evannaissance industry",
-                  style: TextStyle(
-                      color: white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold
-                  ),),
-
-
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-    return footer();
   }
 }
